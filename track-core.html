@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정규 트랙 4주 — Claude 실무 교육</title>
+<meta name="description" content="정규 트랙 4주 상세 — CLAUDE.md·Skills·MCP·Agent Teams. 각 주차가 무엇을 다루는지 설명합니다.">
+<link rel="icon" type="image/png" href="_images/logo.png">
+<link rel="stylesheet" href="detail.css">
+</head>
+<body class="t-accent">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.6 6.4L20 11l-6.4 1.6L12 19l-1.6-6.4L4 11l6.4-1.6z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+</svg>
+
+<header><div class="wrap"><nav>
+  <a class="brand" href="index.html"><span class="logo"><svg class="ic"><use href="#i-spark"/></svg></span>Claude <span>실무 교육</span></a>
+  <a class="back" href="index.html"><svg class="ic"><use href="#i-back"/></svg>메인으로</a>
+</nav></div></header>
+
+<section class="thead"><div class="wrap">
+  <img class="thumb" src="_images/track-core.png" alt="">
+  <div>
+    <div class="tnum">TRACK 02</div>
+    <h1>정규 트랙 — Claude를 동료로 (4주)</h1>
+    <div class="desc">Claude에게 우리 팀의 규칙을 가르치고(CLAUDE.md), 능력을 쥐여주고(Skills), 도구와 연결하고(MCP), 여럿을 동시에 부리는(Agent Teams) 핵심 4주. 순서대로 쌓입니다.</div>
+    <span class="cnt">4주 · 순서대로 이수 권장 · 매주 실습</span>
+  </div>
+</div></section>
+
+<section class="lessons"><div class="wrap">
+
+  <div class="lesson">
+    <div class="lh"><span class="lnum">1주</span><h3>CLAUDE.md — 팀의 암묵지를 문서화하라<span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></h3></div>
+    <p class="learn">Claude는 매 대화마다 "처음 만난 동료"라 같은 실수를 반복합니다. CLAUDE.md는 Claude가 프로젝트에 올 때마다 자동으로 읽는 "신입 온보딩 매뉴얼"입니다. 50분 안에 내 프로젝트의 v1을 직접 작성합니다.</p>
+    <ul class="pts">
+      <li>왜 매번 같은 실수를 반복하는가 — 자동 참조 메모리의 원리</li>
+      <li>"코드로 알 수 없는 것"만 담기 — 좋은/나쁜 CLAUDE.md 5가지 차이</li>
+      <li>추상적 다짐 대신 검증 가능한 구체적 행동 기준</li>
+      <li>실습: /init 으로 내 CLAUDE.md v1 작성 + 금지 규칙 추가</li>
+    </ul>
+  </div>
+
+  <div class="lesson">
+    <div class="lh"><span class="lnum">2주</span><h3>Skills — 반복 작업을 능력 패키지로<span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></h3></div>
+    <p class="learn">같은 체크리스트를 매번 붙여넣고 있다면 Skill로 만들 신호입니다. Slash Command가 "매번 명령"이라면, Skill은 "Claude가 맥락 보고 스스로 꺼내 쓰는 능력"입니다.</p>
+    <ul class="pts">
+      <li>Slash Command vs Skill — 자동 호출이 만드는 차이</li>
+      <li>SKILL.md 중심의 폴더 구조(references·scripts·templates)</li>
+      <li>개인 / 프로젝트 / 플러그인 — 어디에 둘 것인가</li>
+      <li>실습: 내 반복 업무 1개를 개인 Skill로 캡슐화</li>
+    </ul>
+  </div>
+
+  <div class="lesson">
+    <div class="lh"><span class="lnum">3주</span><h3>MCP — Claude를 우리 도구와 연결하라<span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></h3></div>
+    <p class="learn">MCP는 Claude를 우리 드라이브·메일·깃허브·DB와 잇는 표준 어댑터입니다. 핵심은 "연결할 수 있다"가 아니라 "연결해도 되는가" — 권한 설계가 먼저입니다.</p>
+    <ul class="pts">
+      <li>MCP의 3종 기능 — Tools / Resources / Prompts</li>
+      <li>도입 5원칙 — 읽기 전용부터, 최소 권한, 승인 절차</li>
+      <li>신입에게 단계적으로 권한 주듯 안전하게 연결</li>
+      <li>실습: 읽기 전용 MCP 1개 연결 + 권한 경계 검증</li>
+    </ul>
+  </div>
+
+  <div class="lesson">
+    <div class="lh"><span class="lnum">4주</span><h3>Agent Teams — 다중 에이전트와 팀 도입<span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></h3></div>
+    <p class="learn">여러 Claude를 동시에 쓰는 함정과 정답을 배웁니다. 핵심은 "많이 쓰는 것"이 아니라 "충돌 없이 나누는 것". 마지막으로 우리 팀에 그대로 적용할 4주 파일럿 계획서를 완성합니다.</p>
+    <ul class="pts">
+      <li>병렬화의 7단계 프레임워크와 "한 파일은 한 에이전트만"</li>
+      <li>오케스트레이터의 5가지 검증 항목</li>
+      <li>팀 도입 규칙 5가지 + "사용 횟수 아닌 결과 품질" 지표</li>
+      <li>실습: 2~3개 에이전트 병렬 실행 + 4주 파일럿 계획서 작성</li>
+    </ul>
+  </div>
+
+</div></section>
+
+<section class="more"><div class="wrap">
+  <h4>다른 트랙 보기</h4>
+  <div class="more-grid">
+    <a class="mcard" href="track-basic.html"><span class="dot" style="background:var(--teal)"></span>기초 트랙 (8강)<span class="ar"><svg class="ic"><use href="#i-arrow"/></svg></span></a>
+    <a class="mcard" href="track-advanced.html"><span class="dot" style="background:var(--navy)"></span>심화·특강 (8강)<span class="ar"><svg class="ic"><use href="#i-arrow"/></svg></span></a>
+    <a class="mcard home" href="index.html#apply">출강 문의하기<span class="ar"><svg class="ic"><use href="#i-arrow"/></svg></span></a>
+  </div>
+</div></section>
+
+<footer class="ft"><div class="wrap">
+  <p><b>Claude 실무 교육</b> · AI 전문가 정선웅 · 오프라인 출강</p>
+  <p style="margin-top:6px"><a href="mailto:jusin95@gmail.com">jusin95@gmail.com</a></p>
+</div></footer>
+</body>
+</html>
