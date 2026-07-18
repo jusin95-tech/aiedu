@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude 실무 교육 — Claude를 동료로</title>
+<meta name="description" content="AI 전문가 정선웅의 Claude 실무 교육. 설치부터 다중 에이전트까지, 비개발자도 따라오는 3단계 커리큘럼. 오프라인 출강 문의.">
+<link rel="icon" type="image/png" href="_images/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Claude 실무 교육 — Claude를 동료로">
+<meta property="og:description" content="설치부터 다중 에이전트까지, 비개발자도 따라오는 3단계 커리큘럼. AI 전문가 정선웅 · 오프라인 출강.">
+<meta property="og:image" content="_images/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- 배포 후: og:image 를 절대 URL(https://도메인/_images/og.png)로 교체하면 카톡·SNS 미리보기가 확실히 뜹니다 -->
+<style>
+:root{
+  --accent:#D97757; --accent-d:#BE5F42;
+  --ink:#141413; --sub:#4A4A43; --faint:#8C897E;
+  --bg:#F5F4EF; --card:#FFFFFF; --line:#E3E0D8;
+  --teal:#2C6E63; --navy:#1F4E79;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","맑은 고딕",Roboto,sans-serif;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+h1,h2,h3{line-height:1.2;letter-spacing:-.02em}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.eyebrow .ic{width:15px;height:15px}
+.ic{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:inline-block;vertical-align:middle}
+.icon-badge{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon-badge .ic{width:26px;height:26px}
+.ib-accent{background:rgba(217,119,87,.13);color:var(--accent)}
+.ib-teal{background:rgba(44,110,99,.13);color:var(--teal)}
+.ib-navy{background:rgba(31,78,121,.13);color:var(--navy)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:10px;font-weight:700;font-size:15px;transition:.15s;cursor:pointer;border:none;font-family:inherit}
+.btn .ic{width:18px;height:18px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-d)}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5)}
+.btn-ghost:hover{border-color:#fff}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section{padding:84px 0}
+.sec-head{max-width:680px;margin-bottom:44px}
+.sec-head h2{font-size:32px;margin:12px 0 12px}
+.sec-head p{color:var(--sub);font-size:16px}
+
+/* NAV */
+header{position:sticky;top:0;z-index:50;background:rgba(245,244,239,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.02em}
+.brand .logo{width:26px;height:26px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff}
+.brand .logo .ic{width:16px;height:16px;stroke-width:2.2}
+.brand span{color:var(--accent)}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{font-size:14px;font-weight:600;color:var(--sub)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links .btn{padding:9px 18px;font-size:13px;color:#fff}
+.nav-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer}
+@media(max-width:860px){.nav-links{display:none}.nav-toggle{display:block}}
+
+/* HERO */
+.hero{background:var(--ink);color:#fff;padding:96px 0 88px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1.2px,transparent 1.2px);background-size:26px 26px;opacity:.6}
+.hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center;position:relative;z-index:2}
+.hero h1{font-size:52px;font-weight:800;margin:18px 0 20px}
+.hero h1 .hl{color:var(--accent)}
+.hero p.lead{font-size:18px;color:#E8E6DF;max-width:520px;margin-bottom:28px}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+.badges{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
+.badge{display:flex;align-items:center;gap:7px;border:1.5px solid rgba(255,255,255,.22);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600}
+.badge .ic{width:15px;height:15px;color:var(--accent)}
+.badge b{color:var(--accent)}
+/* hero orbit */
+.orbit{position:relative;width:100%;max-width:400px;aspect-ratio:1;margin:0 auto}
+.orbit .ring{position:absolute;inset:0;border:1.5px solid rgba(255,255,255,.13);border-radius:50%}
+.orbit .ring.r2{inset:52px}
+.orbit .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:96px;height:96px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(217,119,87,.18)}
+.orbit .core .ic{width:44px;height:44px;color:#fff;stroke-width:2}
+.sat{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:14px;background:#20201E;border:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.sat .ic{width:22px;height:22px}
+.sat small{font-size:8.5px;color:#B9B6AD;font-weight:600}
+.sat.s1{transform:translate(0,-165px)}.sat.s1 .ic{color:var(--accent)}
+.sat.s2{transform:translate(165px,0)}.sat.s2 .ic{color:var(--teal)}
+.sat.s3{transform:translate(0,165px)}.sat.s3 .ic{color:#E8B04B}
+.sat.s4{transform:translate(-165px,0)}.sat.s4 .ic{color:var(--navy)}
+.hero-art{position:relative;z-index:2}
+.hero-art img{width:100%;border-radius:20px;border:1px solid rgba(255,255,255,.12);box-shadow:0 24px 60px rgba(0,0,0,.4);display:block}
+.art-tags{position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);display:flex;gap:7px;flex-wrap:wrap;justify-content:center;width:100%}
+.art-tags span{display:inline-flex;align-items:center;gap:5px;background:#20201E;border:1px solid rgba(255,255,255,.14);color:#E8E6DF;font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:999px}
+.art-tags span .ic{width:13px;height:13px;color:var(--accent)}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero h1{font-size:38px}.hero-art{max-width:440px;margin:8px auto 20px}}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.why-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 26px}
+.why-card .q{font-size:15px;color:var(--faint);font-style:italic;margin:18px 0 16px;min-height:44px}
+.why-card .arrow{color:var(--accent)}.why-card .arrow .ic{width:22px;height:22px}
+.why-card .a{font-weight:800;font-size:20px;margin-top:10px;display:flex;align-items:center;gap:8px}
+.why-card .a .ic{width:20px;height:20px;color:var(--accent)}
+.why-card .a small{display:block;font-size:13px;font-weight:500;color:var(--sub);margin-top:6px}
+@media(max-width:860px){.why-grid{grid-template-columns:1fr}.why-card .q{min-height:0}}
+
+/* CURRICULUM */
+.track{margin-bottom:26px;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.track-head{display:flex;align-items:center;gap:14px;padding:22px 28px;color:#fff}
+.track-head .th-ic{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center}
+.track-head .th-ic .ic{width:23px;height:23px;color:#fff}
+.track-head .tnum{font-size:12px;font-weight:700;opacity:.85;letter-spacing:.06em}
+.track-head h3{font-size:22px}
+.track-head .cnt{margin-left:auto;font-size:14px;font-weight:700;opacity:.92}
+.track-head .th-thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;border:2px solid rgba(255,255,255,.55);margin-left:16px;flex-shrink:0;background:#F5F4EF}
+.t-teal{background:var(--teal)} .t-accent{background:var(--accent)} .t-navy{background:var(--navy)}
+@media(max-width:600px){.track-head .th-thumb{display:none}}
+.lessons{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line)}
+.lesson{background:var(--card);padding:17px 26px;display:flex;gap:13px;align-items:flex-start}
+.lesson .ln{font-weight:800;color:var(--faint);font-size:14px;min-width:24px}
+.lesson .lt{font-weight:700;font-size:15px}
+.lesson .ld{font-size:13px;color:var(--sub);margin-top:3px}
+.rdy{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;font-weight:700;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:2px 7px}
+.rdy .ic{width:11px;height:11px;stroke-width:2.5}
+@media(max-width:720px){.lessons{grid-template-columns:1fr}}
+
+/* ROADMAP */
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 20px;text-align:center;position:relative}
+.step .circ{width:58px;height:58px;border-radius:16px;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;position:relative}
+.step .circ .ic{width:26px;height:26px}
+.step .circ .sn{position:absolute;right:-6px;top:-6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.step h4{font-size:16px;margin-bottom:6px}
+.step p{font-size:13px;color:var(--sub)}
+.step .lnk{position:absolute;right:-16px;top:44px;color:var(--line);z-index:2}
+.step .lnk .ic{width:20px;height:20px;stroke-width:2.4}
+@media(max-width:860px){.road{grid-template-columns:1fr 1fr}.step .lnk{display:none}}
+
+/* AUDIENCE */
+.tabs{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
+.tab{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);font-weight:700;font-size:14px;cursor:pointer;color:var(--sub);font-family:inherit}
+.tab .ic{width:17px;height:17px}
+.tab.active{border-color:var(--ink);color:var(--ink)}
+.tab:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.pane{display:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px}
+.pane.active{display:block}
+.pane h4{font-size:18px;margin-bottom:18px;display:flex;align-items:center;gap:9px}
+.pane h4 .ic{width:21px;height:21px;color:var(--accent)}
+.pane .pi{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.pane .pi:last-child{border-bottom:none}
+.pane .pi .ic{width:19px;height:19px;color:var(--teal);flex-shrink:0;margin-top:2px}
+.pane .pi b{color:var(--ink)} .pane .pi span{color:var(--sub)}
+
+/* INSTRUCTOR */
+.inst{background:var(--ink);color:#fff;border-radius:20px;padding:46px;display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;position:relative;overflow:hidden}
+.inst::after{content:"";position:absolute;right:-40px;bottom:-40px;width:220px;height:220px;border-radius:50%;border:1.5px solid rgba(255,255,255,.06)}
+.inst .ava{width:120px;height:120px;border-radius:26px;background:linear-gradient(135deg,var(--accent),var(--accent-d));display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;position:relative;z-index:2}
+.inst h3{font-size:26px}
+.inst .role{color:var(--accent);font-weight:700;margin:4px 0 16px}
+.inst p{color:#E8E6DF;font-size:15px;margin-bottom:16px;max-width:640px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:6px 14px;font-size:13px}
+.chip .ic{width:14px;height:14px;color:var(--accent)}
+@media(max-width:720px){.inst{grid-template-columns:1fr;text-align:center;padding:34px 26px}.inst .ava{margin:0 auto}.chips{justify-content:center}}
+
+/* FAQ */
+.faq-item{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.faq-q{width:100%;text-align:left;background:none;border:none;font-family:inherit;color:var(--ink);padding:20px 24px;font-weight:700;font-size:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.faq-q .ql{display:flex;align-items:center;gap:11px}
+.faq-q .ql .ic{width:19px;height:19px;color:var(--accent);flex-shrink:0}
+.faq-q .ic-plus{color:var(--accent);width:22px;height:22px;transition:.2s;flex-shrink:0}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:max-height .25s ease;color:var(--sub)}
+.faq-item.open .faq-a{max-height:220px;padding:0 24px 20px 59px}
+.faq-item.open .ic-plus{transform:rotate(45deg)}
+
+/* APPLY */
+.apply{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.apply h2{font-size:30px;margin-bottom:12px;display:flex;align-items:center;gap:11px}
+.apply h2 .ic{width:28px;height:28px;color:var(--accent)}
+.apply p{color:var(--sub);margin-bottom:20px}
+.apply .mailbig{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent);margin-top:8px}
+.apply .mailbig .ic{width:22px;height:22px}
+.form label{display:block;font-size:13px;font-weight:700;margin:14px 0 6px}
+.form input,.form select,.form textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;background:var(--bg);color:var(--ink)}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--accent)}
+.form textarea{resize:vertical;min-height:90px}
+.form .btn{margin-top:18px;width:100%;justify-content:center}
+.form small{display:block;margin-top:10px;color:var(--faint);font-size:12px}
+@media(max-width:720px){.apply{grid-template-columns:1fr;padding:30px 24px}}
+
+/* FOOTER */
+footer.ft{background:var(--ink);color:#B0AEA5;padding:40px 0;text-align:center;font-size:13px}
+footer.ft .fbrand{display:inline-flex;align-items:center;gap:9px;color:#fff;font-weight:800;font-size:16px;margin-bottom:8px}
+footer.ft .fbrand .ic{width:20px;height:20px;color:var(--accent)}
+footer.ft a{color:var(--accent)}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-network" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M11 7.2 6.2 16.6M13 7.2l4.8 9.4M7.4 19h9.2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M6 8h12M8 8V4M16 8V4M7 8v4a5 5 0 0 0 10 0V8M12 17v5"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 9l3 3-3 3M13 15h4"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/><path d="M22 10v6"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.6 6.4L20 11l-6.4 1.6L12 19l-1.6-6.4L4 11l6.4-1.6z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+</svg>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><span class="logo"><svg class="ic"><use href="#i-spark"/></svg></span>Claude <span>실무 교육</span></div>
+      <div class="nav-links" id="navlinks">
+        <a href="#why">왜</a>
+        <a href="#curriculum">커리큘럼</a>
+        <a href="#roadmap">로드맵</a>
+        <a href="#audience">대상</a>
+        <a href="#instructor">강사</a>
+        <a href="#apply" class="btn btn-primary">출강 문의</a>
+      </div>
+      <button class="nav-toggle" aria-label="메뉴" onclick="document.getElementById('navlinks').style.display=(getComputedStyle(document.getElementById('navlinks')).display==='none'?'flex':'none')">☰</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><svg class="ic"><use href="#i-spark"/></svg> CLAUDE 실무 교육 · 오프라인 출강</div>
+      <h1>Claude를 도구가 아니라<br><span class="hl">동료</span>로 만든다</h1>
+      <p class="lead">설치부터 다중 에이전트까지 — 비개발자도 따라오는 3단계 실무 커리큘럼. 매번 같은 실수를 반복하던 AI를, 우리 팀의 규칙을 아는 동료로 바꿉니다.</p>
+      <div class="cta">
+        <a href="#curriculum" class="btn btn-primary">커리큘럼 보기 <svg class="ic"><use href="#i-arrow"/></svg></a>
+        <a href="#apply" class="btn btn-ghost">출강 문의하기</a>
+      </div>
+      <div class="badges">
+        <div class="badge"><svg class="ic"><use href="#i-rocket"/></svg> <b>기초</b> 8강</div>
+        <div class="badge"><svg class="ic"><use href="#i-calendar"/></svg> <b>정규</b> 4주</div>
+        <div class="badge"><svg class="ic"><use href="#i-layers"/></svg> <b>심화·특강</b> 8강</div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="_images/hero.png" alt="사람과 AI가 문서와 아이디어를 주고받으며 동료처럼 협업하는 일러스트">
+      <div class="art-tags">
+        <span><svg class="ic"><use href="#i-file"/></svg>CLAUDE.md</span>
+        <span><svg class="ic"><use href="#i-zap"/></svg>Skills</span>
+        <span><svg class="ic"><use href="#i-plug"/></svg>MCP</span>
+        <span><svg class="ic"><use href="#i-network"/></svg>Agents</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><svg class="ic"><use href="#i-spark"/></svg> 왜 이 강의인가</div>
+      <h2>세 가지 답답함, 하나의 해결</h2>
+      <p>대부분은 Claude를 검색·글쓰기 도우미로만 씁니다. 진짜 가치는 "매일 같이 일하는 동료"로 만드는 데 있습니다.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="icon-badge ib-accent"><svg class="ic"><use href="#i-repeat"/></svg></div>
+        <div class="q">"AI가 매번 같은 실수를<br>반복한다"</div>
+        <div class="arrow"><svg class="ic"><use href="#i-down"/></svg></div>
+        <div class="a"><svg class="ic"><use href="#i-file"/></svg>CLAUDE.md</div>
+        <small class="a" style="font-weight:500;color:var(--sub);font-size:13px;display:block">팀의 규칙을 문서로 가르친다</small>
+      </div>
+      <div class="why-card reveal">
+        <div class="icon-badge ib-teal"><svg class="ic"><use href="#i-copy"/></svg></div>
+        <div class="q">"같은 체크리스트를<br>매번 붙여넣고 있다"</div>
+        <div class="arrow"><svg class="ic"><use href="#i-down"/></svg></div>
+        <div class="a" style="gap:8px"><svg class="ic" style="color:var(--teal)"><use href="#i-zap"/></svg>Skills · Projects</div>
+        <small style="color:var(--sub);font-size:13px;display:block;margin-top:6px">반복 작업을 능력·시스템으로 캡슐화</small>
+      </div>
+      <div class="why-card reveal">
+        <div class="icon-badge ib-navy"><svg class="ic"><use href="#i-network"/></svg></div>
+        <div class="q">"혼자 다 하기엔<br>일이 너무 많다"</div>
+        <div class="arrow"><svg class="ic"><use href="#i-down"/></svg></div>
+        <div class="a" style="gap:8px"><svg class="ic" style="color:var(--navy)"><use href="#i-plug"/></svg>MCP · Agent Teams</div>
+        <small style="color:var(--sub);font-size:13px;display:block;margin-top:6px">도구와 연결하고 여럿을 동시에 부린다</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section id="curriculum" style="background:#EFEDE6">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><svg class="ic"><use href="#i-book"/></svg> 커리큘럼</div>
+      <h2>세 개의 트랙, 하나의 여정</h2>
+      <p>기초로 감각을 잡고 → 정규 4주로 뼈대를 세우고 → 심화로 확장합니다. <b style="color:var(--accent)">강의안 완비</b> 표시는 상세 교안이 준비된 강의입니다.</p>
+    </div>
+
+    <div class="track reveal">
+      <div class="track-head t-teal">
+        <span class="th-ic"><svg class="ic"><use href="#i-rocket"/></svg></span>
+        <div><span class="tnum">TRACK 01</span><h3>기초 트랙 — 처음 만나는 Claude</h3></div>
+        <span class="cnt">8강</span>
+        <img class="th-thumb" src="_images/track-basic.png" alt="">
+      </div>
+      <div class="lessons">
+        <div class="lesson"><span class="ln">1</span><div><div class="lt">에이전틱 AI 시대, Claude로 시작하기</div><div class="ld">AI를 "동료"로 보는 관점 전환과 첫 세팅</div></div></div>
+        <div class="lesson"><span class="ln">2</span><div><div class="lt">보고서·이메일·회의록 초단축</div><div class="ld">일상 문서 업무를 몇 배 빠르게</div></div></div>
+        <div class="lesson"><span class="ln">3</span><div><div class="lt">Artifacts — 결과물 즉시 생성</div><div class="ld">문서·앱·시각물을 대화로 바로 만들기</div></div></div>
+        <div class="lesson"><span class="ln">4</span><div><div class="lt">Projects — 코워크·팀 협업</div><div class="ld">맥락을 공유하는 협업 작업공간</div></div></div>
+        <div class="lesson"><span class="ln">5</span><div><div class="lt">커넥터·스킬·스케줄링 자동화</div><div class="ld">외부 연결과 반복 작업 자동화 입문</div></div></div>
+        <div class="lesson"><span class="ln">6</span><div><div class="lt">데이터 분석·시각화</div><div class="ld">표·CSV를 분석하고 차트로</div></div></div>
+        <div class="lesson"><span class="ln">7</span><div><div class="lt">Claude Code 입문 — 설치부터 웹까지</div><div class="ld">터미널 기반 AI 코딩 첫걸음 <span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></div></div></div>
+        <div class="lesson"><span class="ln">8</span><div><div class="lt">Claude Code 실전 — 업무 도구 만들기</div><div class="ld">내 업무용 자동화 도구 직접 제작</div></div></div>
+      </div>
+    </div>
+
+    <div class="track reveal">
+      <div class="track-head t-accent">
+        <span class="th-ic"><svg class="ic"><use href="#i-calendar"/></svg></span>
+        <div><span class="tnum">TRACK 02</span><h3>정규 트랙 — Claude를 동료로 (4주)</h3></div>
+        <span class="cnt">4주</span>
+        <img class="th-thumb" src="_images/track-core.png" alt="">
+      </div>
+      <div class="lessons">
+        <div class="lesson"><span class="ln">1주</span><div><div class="lt">CLAUDE.md</div><div class="ld">팀의 암묵지를 문서화 <span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></div></div></div>
+        <div class="lesson"><span class="ln">2주</span><div><div class="lt">Skills</div><div class="ld">반복 작업을 능력 패키지로 캡슐화 <span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></div></div></div>
+        <div class="lesson"><span class="ln">3주</span><div><div class="lt">MCP</div><div class="ld">우리 도구·데이터와 안전하게 연결 <span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></div></div></div>
+        <div class="lesson"><span class="ln">4주</span><div><div class="lt">Agent Teams</div><div class="ld">다중 에이전트 병렬 협업 + 팀 도입 <span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="track reveal">
+      <div class="track-head t-navy">
+        <span class="th-ic"><svg class="ic"><use href="#i-layers"/></svg></span>
+        <div><span class="tnum">TRACK 03</span><h3>심화·특강 트랙 — 주제별 깊이 더하기</h3></div>
+        <span class="cnt">8강</span>
+        <img class="th-thumb" src="_images/track-adv.png" alt="">
+      </div>
+      <div class="lessons">
+        <div class="lesson"><span class="ln">1</span><div><div class="lt">CLAUDE.md 잘 쓰는 법</div><div class="ld">품질 3배 — 짧고·구체적·검증 가능한 규칙 <span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></div></div></div>
+        <div class="lesson"><span class="ln">2</span><div><div class="lt">클로드 디자인 13분 완성</div><div class="ld">브랜드 사이트·PPT·홍보물 디자인 가이드</div></div></div>
+        <div class="lesson"><span class="ln">3</span><div><div class="lt">Claude + NotebookLM</div><div class="ld">리서치·오디오 요약 자동화 조합</div></div></div>
+        <div class="lesson"><span class="ln">4</span><div><div class="lt">LLM 작동 원리</div><div class="ld">언어모델이 어떻게 답을 만드는가 (이론)</div></div></div>
+        <div class="lesson"><span class="ln">5</span><div><div class="lt">LLM 나무위키 — 지식망 구축</div><div class="ld">PARA + Wiki로 나만의 지식 허브</div></div></div>
+        <div class="lesson"><span class="ln">6</span><div><div class="lt">프로젝트 실전 활용 4가지</div><div class="ld">분석가·카피라이터·상담원·비서 <span class="rdy"><svg class="ic"><use href="#i-check"/></svg>강의안 완비</span></div></div></div>
+        <div class="lesson"><span class="ln">7</span><div><div class="lt">Hermes Agent 활용 사례</div><div class="ld">오픈소스 에이전트 실전 적용</div></div></div>
+        <div class="lesson"><span class="ln">8</span><div><div class="lt">헤르메스 폐쇄 학습 루프</div><div class="ld">작업 결과를 학습 데이터로 환류</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><svg class="ic"><use href="#i-flag"/></svg> 학습 로드맵</div>
+      <h2>어떤 순서로 밟는가</h2>
+      <p>각 단계는 앞 단계의 산출물 위에 쌓입니다. 정규 트랙은 순서대로 이수하는 것을 권장합니다.</p>
+    </div>
+    <div class="road">
+      <div class="step reveal"><div class="circ" style="background:var(--teal)"><svg class="ic"><use href="#i-rocket"/></svg><span class="sn">1</span></div><h4>기초 트랙</h4><p>Claude 감각 잡기<br>(8강 · 선택)</p><span class="lnk"><svg class="ic"><use href="#i-arrow"/></svg></span></div>
+      <div class="step reveal"><div class="circ" style="background:var(--accent)"><svg class="ic"><use href="#i-file"/></svg><span class="sn">2</span></div><h4>정규 1~2주</h4><p>CLAUDE.md → Skills<br>규칙·능력 캡슐화</p><span class="lnk"><svg class="ic"><use href="#i-arrow"/></svg></span></div>
+      <div class="step reveal"><div class="circ" style="background:var(--accent)"><svg class="ic"><use href="#i-network"/></svg><span class="sn">3</span></div><h4>정규 3~4주</h4><p>MCP → Agent Teams<br>연결·병렬 협업</p><span class="lnk"><svg class="ic"><use href="#i-arrow"/></svg></span></div>
+      <div class="step reveal"><div class="circ" style="background:var(--navy)"><svg class="ic"><use href="#i-layers"/></svg><span class="sn">4</span></div><h4>심화·특강</h4><p>주제별 심화<br>(8강 · 골라 듣기)</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section id="audience" style="background:#EFEDE6">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><svg class="ic"><use href="#i-user"/></svg> 대상별 추천</div>
+      <h2>나에게 맞는 수강 경로</h2>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="showPane(0,this)"><svg class="ic"><use href="#i-user"/></svg>비개발 임직원</button>
+      <button class="tab" onclick="showPane(1,this)"><svg class="ic"><use href="#i-terminal"/></svg>실무 파워유저</button>
+      <button class="tab" onclick="showPane(2,this)"><svg class="ic"><use href="#i-cap"/></svg>대학원생·연구자</button>
+    </div>
+    <div class="pane active">
+      <h4><svg class="ic"><use href="#i-user"/></svg>문서·데이터 중심으로 빠르게</h4>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>기초 1~6강</b> — 보고서·회의록·데이터 분석부터</span></div>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>정규 1주차 CLAUDE.md</b> — 우리 팀 규칙을 Claude에 심기</span></div>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>특강: 클로드 디자인 / NotebookLM</b> — 발표·리서치 자동화</span></div>
+    </div>
+    <div class="pane">
+      <h4><svg class="ic"><use href="#i-terminal"/></svg>내 손으로 도구를 만든다</h4>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>기초 7~8강</b> — Claude Code 입문·실전</span></div>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>정규 4주 전체</b> — CLAUDE.md·Skills·MCP·Agent Teams</span></div>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>특강: CLAUDE.md 잘 쓰는 법 / 프로젝트 실전활용</b></span></div>
+    </div>
+    <div class="pane">
+      <h4><svg class="ic"><use href="#i-cap"/></svg>지식 관리와 이론까지</h4>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>정규 4주 전체</b> — 에이전트 협업의 뼈대</span></div>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>특강: LLM 작동원리 / LLM 나무위키</b> — 원리와 지식망</span></div>
+      <div class="pi"><svg class="ic"><use href="#i-check"/></svg><span><b>특강: 헤르메스 폐쇄 학습 루프</b> — 자가 개선 시스템</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTOR -->
+<section id="instructor">
+  <div class="wrap">
+    <div class="inst reveal">
+      <div class="ava">정</div>
+      <div>
+        <h3>정선웅</h3>
+        <div class="role">AI 전문가 · Claude 실무 교육</div>
+        <p>AI 도구, 반도체·기술 트렌드, 비즈니스 혁신을 깊게 파고드는 실무자입니다. Claude Code·NotebookLM·Obsidian을 실제 업무에 엮어 자동화 시스템을 직접 만들고, 그 경험을 강의로 옮깁니다. 화려한 이론보다 <b style="color:#fff">"오늘 바로 따라 할 수 있는 것"</b>에 집중합니다.</p>
+        <div class="chips">
+          <span class="chip"><svg class="ic"><use href="#i-terminal"/></svg>Claude Code</span>
+          <span class="chip"><svg class="ic"><use href="#i-book"/></svg>NotebookLM</span>
+          <span class="chip"><svg class="ic"><use href="#i-layers"/></svg>Obsidian</span>
+          <span class="chip"><svg class="ic"><use href="#i-network"/></svg>에이전트 자동화</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:#EFEDE6">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow"><svg class="ic"><use href="#i-help"/></svg> 자주 묻는 질문</div>
+      <h2>궁금한 점</h2>
+    </div>
+    <div class="faq-item"><button class="faq-q" onclick="this.parentNode.classList.toggle('open')"><span class="ql"><svg class="ic"><use href="#i-help"/></svg>코딩을 전혀 몰라도 되나요?</span> <svg class="ic ic-plus"><use href="#i-spark"/></svg></button><div class="faq-a">네. 기초 트랙과 정규 1~2주차는 비개발자를 기준으로 설계했습니다. Claude Code를 다루는 후반부도 "검정 화면 두려움"을 없애는 데서 시작합니다.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="this.parentNode.classList.toggle('open')"><span class="ql"><svg class="ic"><use href="#i-help"/></svg>어떤 요금제가 필요한가요?</span> <svg class="ic ic-plus"><use href="#i-spark"/></svg></button><div class="faq-a">Claude Code 실습이 포함된 회차는 프로 플랜 이상이 필요합니다. 무료 플랜은 채팅만 가능합니다. 사전 안내에서 자세히 드립니다.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="this.parentNode.classList.toggle('open')"><span class="ql"><svg class="ic"><use href="#i-help"/></svg>기업 단위 출강도 가능한가요?</span> <svg class="ic ic-plus"><use href="#i-spark"/></svg></button><div class="faq-a">가능합니다. 오프라인 출강을 기본으로 하며, 조직 상황에 맞춰 트랙을 조합해 커리큘럼을 구성합니다. 이메일로 문의해 주세요.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="this.parentNode.classList.toggle('open')"><span class="ql"><svg class="ic"><use href="#i-help"/></svg>전체를 다 들어야 하나요?</span> <svg class="ic ic-plus"><use href="#i-spark"/></svg></button><div class="faq-a">아니요. 대상별 추천 경로처럼 필요한 트랙만 골라 들을 수 있습니다. 정규 트랙만 순서대로 이수하는 것을 권장합니다.</div></div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section id="apply">
+  <div class="wrap">
+    <div class="apply">
+      <div>
+        <h2><svg class="ic"><use href="#i-mail"/></svg>오프라인 출강 문의</h2>
+        <p>인원·수준·원하는 트랙을 알려주시면 맞춤 커리큘럼과 일정을 제안해 드립니다. 개인·팀·기업 모두 환영합니다.</p>
+        <a class="mailbig" href="mailto:jusin95@gmail.com?subject=Claude%20실무%20교육%20출강%20문의"><svg class="ic"><use href="#i-mail"/></svg>jusin95@gmail.com</a>
+        <p style="margin-top:22px;font-size:14px">아래 양식을 채우면 메일 앱에 내용이 자동으로 채워집니다.</p>
+      </div>
+      <form class="form" onsubmit="return sendMail(event)">
+        <label>이름 / 담당자</label>
+        <input id="f_name" required placeholder="정선웅">
+        <label>회신 이메일</label>
+        <input id="f_email" type="email" required placeholder="you@example.com">
+        <label>소속 (선택)</label>
+        <input id="f_org" placeholder="회사 · 팀 · 개인">
+        <label>관심 트랙</label>
+        <select id="f_track">
+          <option>기초 트랙 (8강)</option>
+          <option>정규 트랙 (4주)</option>
+          <option>심화·특강 트랙 (8강)</option>
+          <option>전체 / 맞춤 구성</option>
+        </select>
+        <label>문의 내용</label>
+        <textarea id="f_msg" placeholder="예상 인원, 희망 일정, 수준 등을 적어주세요."></textarea>
+        <button class="btn btn-primary" type="submit"><svg class="ic"><use href="#i-mail"/></svg>메일로 문의 보내기</button>
+        <small>* 전송 버튼을 누르면 기본 메일 앱이 열리며 jusin95@gmail.com 으로 발송됩니다.</small>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="wrap">
+    <p class="fbrand"><svg class="ic"><use href="#i-spark"/></svg>Claude 실무 교육</p>
+    <p>AI 전문가 정선웅 · 오프라인 출강</p>
+    <p style="margin-top:6px"><a href="mailto:jusin95@gmail.com">jusin95@gmail.com</a></p>
+    <p style="margin-top:14px;opacity:.6">Claude를 도구가 아니라 동료로.</p>
+  </div>
+</footer>
+
+<script>
+function showPane(i,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#audience .pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#audience .pane')[i].classList.add('active');
+}
+function sendMail(e){
+  e.preventDefault();
+  var g=id=>document.getElementById(id).value;
+  var body="이름/담당자: "+g('f_name')+"\n회신 이메일: "+g('f_email')+"\n소속: "+g('f_org')+"\n관심 트랙: "+g('f_track')+"\n\n문의 내용:\n"+g('f_msg');
+  window.location.href="mailto:jusin95@gmail.com?subject="+encodeURIComponent("[Claude 실무 교육] 출강 문의 - "+g('f_name'))+"&body="+encodeURIComponent(body);
+  return false;
+}
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>
+</html>
